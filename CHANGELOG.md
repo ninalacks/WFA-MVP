@@ -5,6 +5,14 @@ Entries are appended automatically by a local git `post-commit` hook every time 
 
 <!-- new entries are inserted below this line, do not remove -->
 
+## 2026-08-03 12:02 — Nina Lacks
+
+**Move changelog hook to Husky so it's shared via the repo**
+
+- A	.husky/post-commit
+- M	package-lock.json
+- M	package.json
+
 ## 2026-08-03 11:58 — Nina Lacks
 
 **Fix changelog hook to pin intro text above the marker**

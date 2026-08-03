@@ -1,0 +1,52 @@
+#!/bin/sh
+# Auto-updates CHANGELOG.md with every commit, then folds that update into
+# the same commit (via --amend) so pushes always carry an up-to-date changelog.
+set -e
+
+# Prevent infinite recursion: the amend below re-triggers this hook.
+if [ -n "$UPDATING_CHANGELOG" ]; then
+  exit 0
+fi
+
+AUTHOR_NAME="Nina Lacks"
+CHANGELOG="CHANGELOG.md"
+DATE=$(date "+%Y-%m-%d %H:%M")
+SUBJECT=$(git log -1 --pretty=%s)
+
+if git rev-parse HEAD~1 >/dev/null 2>&1; then
+  FILES=$(git diff --name-status HEAD~1 HEAD)
+else
+  FILES=$(git show --pretty="" --name-status HEAD)
+fi
+
+MARKER="<!-- new entries are inserted below this line, do not remove -->"
+
+if [ ! -f "$CHANGELOG" ]; then
+  printf '# Changelog\n\n%s\n\n' "$MARKER" > "$CHANGELOG"
+elif ! grep -qF "$MARKER" "$CHANGELOG"; then
+  # Legacy file with no marker: insert one right after the top header line
+  TMP=$(mktemp)
+  { head -n 1 "$CHANGELOG"; printf '\n%s\n\n' "$MARKER"; tail -n +2 "$CHANGELOG"; } > "$TMP"
+  mv "$TMP" "$CHANGELOG"
+fi
+
+ENTRY_FILE=$(mktemp)
+{
+  printf '## %s — %s\n\n' "$DATE" "$AUTHOR_NAME"
+  printf '**%s**\n\n' "$SUBJECT"
+  echo "$FILES" | sed 's/^/- /'
+} > "$ENTRY_FILE"
+
+MERGED=$(mktemp)
+awk -v marker="$MARKER" -v entryfile="$ENTRY_FILE" '
+  { print }
+  index($0, marker) {
+    print ""
+    while ((getline line < entryfile) > 0) print line
+  }
+' "$CHANGELOG" > "$MERGED"
+mv "$MERGED" "$CHANGELOG"
+rm -f "$ENTRY_FILE"
+
+git add "$CHANGELOG"
+UPDATING_CHANGELOG=1 git commit --amend --no-edit --no-verify --quiet
