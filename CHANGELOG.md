@@ -1,13 +1,21 @@
 # Changelog
 
+All notable changes to this project are recorded here, newest first.
+Entries are appended automatically by a local git `post-commit` hook every time a commit is made.
+
+<!-- new entries are inserted below this line, do not remove -->
+
+## 2026-08-03 11:58 — Nina Lacks
+
+**Fix changelog hook to pin intro text above the marker**
+
+- M	CHANGELOG.md
+
 ## 2026-08-03 11:57 — Nina Lacks
 
 **Add CHANGELOG.md and post-commit hook for automatic updates**
 
 - A	CHANGELOG.md
-
-All notable changes to this project are recorded here, newest first.
-Entries are appended automatically by a local git `post-commit` hook every time a commit is made.
 
 ## 2026-08-03 11:51 — Nina Lacks
 
