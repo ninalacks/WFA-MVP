@@ -3,7 +3,7 @@
 import { ChevronDown, ListFilter, X } from "lucide-react";
 import { DropdownMenu } from "radix-ui";
 
-import { Button } from "@/components/ui/Button";
+import { Button } from "@/components/ui/button";
 import { MultiSelect } from "@/components/ui/MultiSelect";
 import type { FilterOptionLists, FilterState, SavedFilter } from "@/types/schedule";
 import { isFilterStateEmpty } from "@/lib/schedule-filters";
@@ -129,12 +129,12 @@ export function FilterPanel({
             className="z-50 min-w-56 rounded-md border border-gray-200 bg-white p-1 shadow-lg"
           >
             {savedFilters.length === 0 && (
-              <p className="px-2 py-1.5 text-sm text-gray-400">No saved filters yet</p>
+              <p className="px-2 py-1.5 text-body-md text-gray-400">No saved filters yet</p>
             )}
             {savedFilters.map((saved) => (
               <div
                 key={saved.id}
-                className="flex items-center justify-between rounded px-2 py-1.5 text-sm text-gray-700 hover:bg-gray-50"
+                className="flex items-center justify-between rounded px-2 py-1.5 text-body-md text-gray-700 hover:bg-gray-50"
               >
                 <DropdownMenu.Item
                   onSelect={() => onApplySavedFilter(saved)}

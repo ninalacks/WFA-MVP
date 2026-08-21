@@ -1,0 +1,214 @@
+/*
+ * Kroger design-system color + typography tokens, sourced from
+ * design.kroger.com/foundations/color and .../typography.
+ * Layered on top of shadcn's generated tokens — shadcn-owned files (globals.css's
+ * own :root/.dark blocks) stay untouched so upstream regen stays clean.
+ */
+
+:root {
+  /* Minimal rounded corners (shadcn default: 0.625rem) */
+  --radius: 0.25rem;
+
+  /* Brand palette (blue) */
+  --primary: #0f52a2; /* brandMoreProminent */
+  --primary-foreground: #ffffff;
+
+  /* Neutral surfaces */
+  --background: #ffffff;
+  --foreground: #3b3e40; /* neutralMostProminent */
+  --card: #ffffff;
+  --card-foreground: #3b3e40;
+  --popover: #ffffff;
+  --popover-foreground: #3b3e40;
+  --secondary: #f4f6f8; /* neutralMostSubtle */
+  --secondary-foreground: #3b3e40;
+  --muted: #f4f6f8; /* neutralMostSubtle */
+  --muted-foreground: #6f7377; /* neutralLessProminent */
+  --accent: #d2eafa; /* brandMoreSubtle */
+  --accent-foreground: #074085; /* brandMostProminent */
+  --border: #e4e7ea; /* neutralMoreSubtle */
+  --input: #e4e7ea;
+  --ring: #2874c1; /* brandLessProminent */
+  --destructive: #a9001f; /* negativeMoreProminent */
+
+  /* Full Kroger palette, exposed as utilities (bg-kroger-brand-*, etc.) */
+  --kroger-brand-most-prominent: #074085;
+  --kroger-brand-more-prominent: #0f52a2;
+  --kroger-brand-less-prominent: #2874c1;
+  --kroger-brand-least-prominent: #3d92df;
+  --kroger-brand-least-subtle: #81c5f4;
+  --kroger-brand-less-subtle: #aedaf8;
+  --kroger-brand-more-subtle: #d2eafa;
+  --kroger-brand-most-subtle: #eff7fd;
+
+  --kroger-accent-most-prominent: #074085;
+  --kroger-accent-more-prominent: #0f52a2;
+  --kroger-accent-less-prominent: #2874c1;
+  --kroger-accent-least-prominent: #3d92df;
+  --kroger-accent-least-subtle: #81c5f4;
+  --kroger-accent-less-subtle: #aedaf8;
+  --kroger-accent-more-subtle: #d2eafa;
+  --kroger-accent-most-subtle: #eff7fd;
+
+  --kroger-neutral-most-prominent: #3b3e40;
+  --kroger-neutral-more-prominent: #505458;
+  --kroger-neutral-less-prominent: #6f7377;
+  --kroger-neutral-least-prominent: #8b8f94;
+  --kroger-neutral-least-subtle: #b9bec2;
+  --kroger-neutral-less-subtle: #d1d5d8;
+  --kroger-neutral-more-subtle: #e4e7ea;
+  --kroger-neutral-most-subtle: #f4f6f8;
+
+  --kroger-positive-most-prominent: #00492a;
+  --kroger-positive-more-prominent: #006037;
+  --kroger-positive-less-prominent: #0c824b;
+  --kroger-positive-least-prominent: #1ba161;
+  --kroger-positive-least-subtle: #71cc98;
+  --kroger-positive-less-subtle: #a0e3bc;
+  --kroger-positive-more-subtle: #c3f1d6;
+  --kroger-positive-most-subtle: #e7fbf0;
+
+  --kroger-negative-most-prominent: #810017;
+  --kroger-negative-more-prominent: #a9001f;
+  --kroger-negative-less-prominent: #e4002a;
+  --kroger-negative-least-prominent: #ff3842;
+  --kroger-negative-least-subtle: #ff9f9f;
+  --kroger-negative-less-subtle: #ffc3c3;
+  --kroger-negative-more-subtle: #ffdbdb;
+  --kroger-negative-most-subtle: #feeeee;
+
+  --kroger-callout-most-prominent: #732102;
+  --kroger-callout-more-prominent: #983302;
+  --kroger-callout-less-prominent: #c54e04;
+  --kroger-callout-least-prominent: #eb6302;
+  --kroger-callout-least-subtle: #ffac02;
+  --kroger-callout-less-subtle: #fed241;
+  --kroger-callout-more-subtle: #ffea9d;
+  --kroger-callout-most-subtle: #fef7d5;
+
+  --kroger-special-most-prominent: #5d2077;
+  --kroger-special-more-prominent: #753790;
+  --kroger-special-less-prominent: #9450ad;
+  --kroger-special-least-prominent: #b177c3;
+  --kroger-special-least-subtle: #d8afe4;
+  --kroger-special-less-subtle: #e8cbf0;
+  --kroger-special-more-subtle: #f2e1f8;
+  --kroger-special-most-subtle: #f9f2fb;
+
+  --kroger-text: #000000;
+  --kroger-secondary-text: #000000b8;
+  --kroger-tertiary-text: #0000007a;
+  --kroger-quaternary-text: #0000003d;
+
+  /* MX status/semantic tones — light chip background + darker text, matching
+     the existing enterprise status-badge convention, built from Kroger's
+     Positive/Negative/Callout/Accent/Neutral palettes */
+  --mx-neutral: var(--kroger-neutral-most-subtle);
+  --mx-neutral-foreground: var(--kroger-neutral-more-prominent);
+  --mx-info: var(--kroger-accent-most-subtle);
+  --mx-info-foreground: var(--kroger-accent-more-prominent);
+  --mx-success: var(--kroger-positive-most-subtle);
+  --mx-success-foreground: var(--kroger-positive-more-prominent);
+  --mx-warning: var(--kroger-callout-most-subtle);
+  --mx-warning-foreground: var(--kroger-callout-more-prominent);
+  --mx-danger: var(--kroger-negative-most-subtle);
+  --mx-danger-foreground: var(--kroger-negative-more-prominent);
+}
+
+@theme inline {
+  --color-mx-neutral: var(--mx-neutral);
+  --color-mx-neutral-foreground: var(--mx-neutral-foreground);
+  --color-mx-info: var(--mx-info);
+  --color-mx-info-foreground: var(--mx-info-foreground);
+  --color-mx-success: var(--mx-success);
+  --color-mx-success-foreground: var(--mx-success-foreground);
+  --color-mx-warning: var(--mx-warning);
+  --color-mx-warning-foreground: var(--mx-warning-foreground);
+  --color-mx-danger: var(--mx-danger);
+  --color-mx-danger-foreground: var(--mx-danger-foreground);
+
+  --color-kroger-brand-most-prominent: var(--kroger-brand-most-prominent);
+  --color-kroger-brand-more-prominent: var(--kroger-brand-more-prominent);
+  --color-kroger-brand-less-prominent: var(--kroger-brand-less-prominent);
+  --color-kroger-brand-least-prominent: var(--kroger-brand-least-prominent);
+  --color-kroger-brand-least-subtle: var(--kroger-brand-least-subtle);
+  --color-kroger-brand-less-subtle: var(--kroger-brand-less-subtle);
+  --color-kroger-brand-more-subtle: var(--kroger-brand-more-subtle);
+  --color-kroger-brand-most-subtle: var(--kroger-brand-most-subtle);
+
+  --color-kroger-accent-most-prominent: var(--kroger-accent-most-prominent);
+  --color-kroger-accent-more-prominent: var(--kroger-accent-more-prominent);
+  --color-kroger-accent-less-prominent: var(--kroger-accent-less-prominent);
+  --color-kroger-accent-least-prominent: var(--kroger-accent-least-prominent);
+  --color-kroger-accent-least-subtle: var(--kroger-accent-least-subtle);
+  --color-kroger-accent-less-subtle: var(--kroger-accent-less-subtle);
+  --color-kroger-accent-more-subtle: var(--kroger-accent-more-subtle);
+  --color-kroger-accent-most-subtle: var(--kroger-accent-most-subtle);
+
+  --color-kroger-neutral-most-prominent: var(--kroger-neutral-most-prominent);
+  --color-kroger-neutral-more-prominent: var(--kroger-neutral-more-prominent);
+  --color-kroger-neutral-less-prominent: var(--kroger-neutral-less-prominent);
+  --color-kroger-neutral-least-prominent: var(--kroger-neutral-least-prominent);
+  --color-kroger-neutral-least-subtle: var(--kroger-neutral-least-subtle);
+  --color-kroger-neutral-less-subtle: var(--kroger-neutral-less-subtle);
+  --color-kroger-neutral-more-subtle: var(--kroger-neutral-more-subtle);
+  --color-kroger-neutral-most-subtle: var(--kroger-neutral-most-subtle);
+
+  --color-kroger-positive-most-prominent: var(--kroger-positive-most-prominent);
+  --color-kroger-positive-more-prominent: var(--kroger-positive-more-prominent);
+  --color-kroger-positive-less-prominent: var(--kroger-positive-less-prominent);
+  --color-kroger-positive-least-prominent: var(--kroger-positive-least-prominent);
+  --color-kroger-positive-least-subtle: var(--kroger-positive-least-subtle);
+  --color-kroger-positive-less-subtle: var(--kroger-positive-less-subtle);
+  --color-kroger-positive-more-subtle: var(--kroger-positive-more-subtle);
+  --color-kroger-positive-most-subtle: var(--kroger-positive-most-subtle);
+
+  --color-kroger-negative-most-prominent: var(--kroger-negative-most-prominent);
+  --color-kroger-negative-more-prominent: var(--kroger-negative-more-prominent);
+  --color-kroger-negative-less-prominent: var(--kroger-negative-less-prominent);
+  --color-kroger-negative-least-prominent: var(--kroger-negative-least-prominent);
+  --color-kroger-negative-least-subtle: var(--kroger-negative-least-subtle);
+  --color-kroger-negative-less-subtle: var(--kroger-negative-less-subtle);
+  --color-kroger-negative-more-subtle: var(--kroger-negative-more-subtle);
+  --color-kroger-negative-most-subtle: var(--kroger-negative-most-subtle);
+
+  --color-kroger-callout-most-prominent: var(--kroger-callout-most-prominent);
+  --color-kroger-callout-more-prominent: var(--kroger-callout-more-prominent);
+  --color-kroger-callout-less-prominent: var(--kroger-callout-less-prominent);
+  --color-kroger-callout-least-prominent: var(--kroger-callout-least-prominent);
+  --color-kroger-callout-least-subtle: var(--kroger-callout-least-subtle);
+  --color-kroger-callout-less-subtle: var(--kroger-callout-less-subtle);
+  --color-kroger-callout-more-subtle: var(--kroger-callout-more-subtle);
+  --color-kroger-callout-most-subtle: var(--kroger-callout-most-subtle);
+
+  --color-kroger-special-most-prominent: var(--kroger-special-most-prominent);
+  --color-kroger-special-more-prominent: var(--kroger-special-more-prominent);
+  --color-kroger-special-less-prominent: var(--kroger-special-less-prominent);
+  --color-kroger-special-least-prominent: var(--kroger-special-least-prominent);
+  --color-kroger-special-least-subtle: var(--kroger-special-least-subtle);
+  --color-kroger-special-less-subtle: var(--kroger-special-less-subtle);
+  --color-kroger-special-more-subtle: var(--kroger-special-more-subtle);
+  --color-kroger-special-most-subtle: var(--kroger-special-most-subtle);
+
+  /*
+   * Kroger Web Type Scale. Use alongside an explicit font-weight utility —
+   * these tokens only carry size + line-height, per Tailwind's font-size
+   * theme convention (--text-{name} / --text-{name}--line-height).
+   */
+  --text-header-xl: 2rem; /* 32px, regular */
+  --text-header-xl--line-height: 2.5rem; /* 40px */
+  --text-header-lg: 1.25rem; /* 20px, regular */
+  --text-header-lg--line-height: 1.5rem; /* 24px */
+  --text-header-md: 1.125rem; /* 18px, regular */
+  --text-header-md--line-height: 1.25rem; /* 20px */
+  --text-header-sm: 1rem; /* 16px, bold */
+  --text-header-sm--line-height: 1.25rem; /* 20px */
+  --text-body-lg: 1rem; /* 16px, regular */
+  --text-body-lg--line-height: 1.5rem; /* 24px */
+  --text-body-md: 0.84375rem; /* 13.5px, regular/medium */
+  --text-body-md--line-height: 1.25rem; /* 20px */
+  --text-body-sm: 0.75rem; /* 12px, regular/medium */
+  --text-body-sm--line-height: 1.25rem; /* 20px */
+  --text-body-xs: 0.625rem; /* 10px, regular/medium */
+  --text-body-xs--line-height: 1rem; /* 16px */
+}

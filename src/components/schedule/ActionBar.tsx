@@ -4,7 +4,9 @@ import { useState } from "react";
 import { ChevronDown, Download, History, Loader2, Star } from "lucide-react";
 import { Dialog, DropdownMenu } from "radix-ui";
 
-import { Button } from "@/components/ui/Button";
+import { Button } from "@/components/ui/button";
+import { NewEntryDialog } from "@/components/schedule/NewEntryDialog";
+import type { FilterOptionLists, NewEntryDraft, ScheduleView } from "@/types/schedule";
 
 export type DownloadFormat = "excel" | "pdf";
 
@@ -13,6 +15,17 @@ export interface ActionBarProps {
   onDownload: (format: DownloadFormat) => void;
   isFilterEmpty: boolean;
   onSaveFilter: (name: string) => void;
+  filterOptionLists: FilterOptionLists;
+  onAddEntry: (draft: NewEntryDraft) => void;
+  readOnly?: boolean;
+  showPublishActions?: boolean;
+  canPublish?: boolean;
+  onPublish?: () => void;
+  onReadyToPublish?: () => void;
+  showViewToggle?: boolean;
+  view?: ScheduleView;
+  onViewChange?: (view: ScheduleView) => void;
+  onOpenHistory?: () => void;
 }
 
 export function ActionBar({
@@ -20,6 +33,17 @@ export function ActionBar({
   onDownload,
   isFilterEmpty,
   onSaveFilter,
+  filterOptionLists,
+  onAddEntry,
+  readOnly = false,
+  showPublishActions = false,
+  canPublish = false,
+  onPublish,
+  onReadyToPublish,
+  showViewToggle = false,
+  view,
+  onViewChange,
+  onOpenHistory,
 }: ActionBarProps) {
   const [saveDialogOpen, setSaveDialogOpen] = useState(false);
   const [filterName, setFilterName] = useState("");
@@ -34,9 +58,27 @@ export function ActionBar({
 
   return (
     <div className="flex items-center gap-2 px-6 py-3">
+      {!readOnly && <NewEntryDialog options={filterOptionLists} onSubmit={onAddEntry} />}
+
+      {showPublishActions && (
+        <>
+          <Button variant="default" onClick={onReadyToPublish}>
+            Ready to Publish
+          </Button>
+          <Button
+            variant="default"
+            onClick={onPublish}
+            disabled={!canPublish}
+            title={canPublish ? undefined : "Select at least one change to publish"}
+          >
+            Publish Changes
+          </Button>
+        </>
+      )}
+
       <DropdownMenu.Root>
         <DropdownMenu.Trigger asChild>
-          <Button variant="primary" disabled={isDownloading}>
+          <Button variant="default" disabled={isDownloading}>
             {isDownloading ? (
               <Loader2 className="h-4 w-4 animate-spin" aria-hidden />
             ) : (
@@ -54,13 +96,13 @@ export function ActionBar({
           >
             <DropdownMenu.Item
               onSelect={() => onDownload("excel")}
-              className="cursor-pointer rounded px-2 py-1.5 text-sm text-gray-700 outline-none hover:bg-gray-50"
+              className="cursor-pointer rounded px-2 py-1.5 text-body-md text-gray-700 outline-none hover:bg-gray-50"
             >
               Excel (.csv)
             </DropdownMenu.Item>
             <DropdownMenu.Item
               onSelect={() => onDownload("pdf")}
-              className="cursor-pointer rounded px-2 py-1.5 text-sm text-gray-700 outline-none hover:bg-gray-50"
+              className="cursor-pointer rounded px-2 py-1.5 text-body-md text-gray-700 outline-none hover:bg-gray-50"
             >
               PDF (print)
             </DropdownMenu.Item>
@@ -70,7 +112,7 @@ export function ActionBar({
 
       <Dialog.Root open={saveDialogOpen} onOpenChange={setSaveDialogOpen}>
         <Dialog.Trigger asChild>
-          <Button variant="secondary" disabled={isFilterEmpty} title={isFilterEmpty ? "Apply at least one filter to save" : undefined}>
+          <Button variant="outline" disabled={isFilterEmpty} title={isFilterEmpty ? "Apply at least one filter to save" : undefined}>
             <Star className="h-4 w-4" aria-hidden />
             Save Filter
           </Button>
@@ -78,7 +120,7 @@ export function ActionBar({
         <Dialog.Portal>
           <Dialog.Overlay className="fixed inset-0 z-50 bg-black/30" />
           <Dialog.Content className="fixed top-1/2 left-1/2 z-50 w-80 -translate-x-1/2 -translate-y-1/2 rounded-lg bg-white p-4 shadow-xl">
-            <Dialog.Title className="text-base font-semibold text-gray-900">
+            <Dialog.Title className="font-heading text-header-sm font-bold text-gray-900">
               Save current filters
             </Dialog.Title>
             <input
@@ -87,13 +129,13 @@ export function ActionBar({
               onChange={(event) => setFilterName(event.target.value)}
               onKeyDown={(event) => event.key === "Enter" && handleSave()}
               placeholder="Filter name"
-              className="mt-3 w-full rounded-md border border-gray-300 px-3 py-2 text-sm focus:border-blue-500 focus:outline-none"
+              className="mt-3 w-full rounded-md border border-gray-300 px-3 py-2 text-body-md focus:border-primary focus:outline-none"
             />
             <div className="mt-4 flex justify-end gap-2">
               <Dialog.Close asChild>
                 <Button variant="ghost">Cancel</Button>
               </Dialog.Close>
-              <Button variant="primary" onClick={handleSave} disabled={!filterName.trim()}>
+              <Button variant="default" onClick={handleSave} disabled={!filterName.trim()}>
                 Save
               </Button>
             </div>
@@ -101,14 +143,27 @@ export function ActionBar({
         </Dialog.Portal>
       </Dialog.Root>
 
-      <Button
-        variant="ghost"
-        disabled
-        title="Change History is not yet available"
-      >
+      <Button variant="ghost" onClick={onOpenHistory}>
         <History className="h-4 w-4" aria-hidden />
         History
       </Button>
+
+      {showViewToggle && view && (
+        <div className="ml-auto flex items-center gap-1 rounded-full border border-gray-200 bg-gray-50 p-1 text-body-sm">
+          {(["Draft", "Published"] as const).map((option) => (
+            <button
+              key={option}
+              type="button"
+              onClick={() => onViewChange?.(option)}
+              className={`rounded-full px-3 py-1 font-medium transition-colors ${
+                view === option ? "bg-white text-gray-900 shadow-sm" : "text-gray-500 hover:text-gray-700"
+              }`}
+            >
+              {option}
+            </button>
+          ))}
+        </div>
+      )}
     </div>
   );
 }

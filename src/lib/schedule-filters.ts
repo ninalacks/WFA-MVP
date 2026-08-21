@@ -39,7 +39,7 @@ export function applyFilters(records: ResetRecord[], filters: FilterState): Rese
     ) {
       return false;
     }
-    if (filters.statuses.length && !filters.statuses.includes(record.status)) {
+    if (filters.statuses.length && (!record.status || !filters.statuses.includes(record.status))) {
       return false;
     }
     return true;
@@ -49,13 +49,15 @@ export function applyFilters(records: ResetRecord[], filters: FilterState): Rese
 function compareValues(a: ResetRecord, b: ResetRecord, column: NonNullable<SortState["column"]>) {
   switch (column) {
     case "start":
-      return new Date(a.start).getTime() - new Date(b.start).getTime();
-    case "durationDays":
-      return a.durationDays - b.durationDays;
+      return a.period - b.period || a.week - b.week;
+    case "durationWeeks":
+      return a.durationWeeks - b.durationWeeks;
     case "hours":
       return (a.hours ?? -1) - (b.hours ?? -1);
     case "divisionsCount":
       return a.divisions.length - b.divisions.length;
+    case "status":
+      return (a.status ?? "").localeCompare(b.status ?? "");
     default:
       return a[column].localeCompare(b[column]);
   }

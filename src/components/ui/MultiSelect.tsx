@@ -33,7 +33,7 @@ export function MultiSelect({ label, options, selected, onChange }: MultiSelectP
         >
           <span>{label}</span>
           {selected.length > 0 && (
-            <span className="inline-flex h-5 min-w-5 items-center justify-center rounded-full bg-blue-600 px-1 text-xs font-medium text-white">
+            <span className="inline-flex h-5 min-w-5 items-center justify-center rounded-full bg-primary px-1 text-xs font-medium text-primary-foreground">
               {selected.length}
             </span>
           )}
@@ -59,7 +59,7 @@ export function MultiSelect({ label, options, selected, onChange }: MultiSelectP
                 <Checkbox.Root
                   checked={checked}
                   onCheckedChange={() => toggle(option.value)}
-                  className="flex h-4 w-4 items-center justify-center rounded border border-gray-300 data-[state=checked]:border-blue-600 data-[state=checked]:bg-blue-600"
+                  className="flex h-4 w-4 items-center justify-center rounded border border-gray-300 data-[state=checked]:border-primary data-[state=checked]:bg-primary"
                 >
                   <Checkbox.Indicator>
                     <Check className="h-3 w-3 text-white" aria-hidden />

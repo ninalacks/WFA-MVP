@@ -15,5 +15,5 @@ type Story = StoryObj<typeof meta>;
 export const Neutral: Story = { args: { tone: "neutral", children: "No Changes" } };
 export const Info: Story = { args: { tone: "info", children: "In Progress" } };
 export const Success: Story = { args: { tone: "success", children: "Completed" } };
-export const Warning: Story = { args: { tone: "warning", children: "Scheduled" } };
-export const Danger: Story = { args: { tone: "danger", children: "Cancelled" } };
+export const Warning: Story = { args: { tone: "warning", children: "Modified" } };
+export const Danger: Story = { args: { tone: "danger", children: "Removed" } };
